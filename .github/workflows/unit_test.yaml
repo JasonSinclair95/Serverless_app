@@ -30,4 +30,4 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest --cov=hello_world --cov-report=term-missing lambda_functions_files/hello_world/test_hello_world.py
+          pytest --cov=hello_world --cov-report=term-missing ./lambda_functions_files/hello_world/test_hello_world.py
