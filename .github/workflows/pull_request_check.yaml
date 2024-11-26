@@ -23,8 +23,7 @@ jobs:
       - name: Render terraform docs and push changes back to PR
         uses: terraform-docs/gh-actions@v1.3.0
         with:
-          working-dir: apiGateway, lambda
-          output-file: README.md
+          working-dir: ./apiGateway, ./lambda
           output-method: inject
           indentation: 3
           args: --hide header --anchor=false
