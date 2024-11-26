@@ -48,7 +48,6 @@ jobs:
       uses: hashicorp/setup-terraform@v3
       with:
         terraform_version: ${{ env.TERRAFORM_VERSION }}
-      working-directory: ${{ env.WORK_DIR }}
 
     # Initialize the Terraform configuration (initialize working directory)
     - name: Initialize Terraform
