@@ -13,6 +13,14 @@ jobs:
   terraform-docs:
     runs-on: ubuntu-latest
     steps:
+      - name: Render terraform docs and push changes back to PR
+        uses: terraform-docs/gh-actions@v1.3.0
+        with:
+          working-dir: ../apiGateway, ../lambda
+          output-method: inject
+          indentation: 3
+          args: --hide header --anchor=false
+          git-push: "true"
       - name: Install terraform-docs
         run: |
           cd /tmp
@@ -20,14 +28,6 @@ jobs:
           tar -xzf terraform-docs.tar.gz
           chmod +x terraform-docs
           mv terraform-docs "${HOME}/.local/bin"
-      - name: Render terraform docs and push changes back to PR
-        uses: terraform-docs/gh-actions@v1.3.0
-        with:
-          working-dir: ./apiGateway, ./lambda
-          output-method: inject
-          indentation: 3
-          args: --hide header --anchor=false
-          git-push: "true"
       - name: Checkout repository code
         uses: actions/checkout@v4
         with:
