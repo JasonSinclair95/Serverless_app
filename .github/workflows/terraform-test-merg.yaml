@@ -1,7 +1,7 @@
 name: 'Deploy application in either dev and production environments'
 
 on:
-  # Trigger the workflow for pull requests targeting the "main" branch
+  # Trigger the workflow for pull requests
   pull_request:
     types: [opened, edited, reopened, synchronize]
 
