@@ -1,0 +1,24 @@
+name: Check PR Title
+
+on:
+  pull_request:
+    types: [opened, edited, reopened]
+
+jobs:
+  check-pr-title:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Validate PR Title
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          if [[ ! "$PR_TITLE" =~ ^(feature:|fix:) ]]; then
+            echo "❌ Pull Request title must start with 'feature:' or 'fix:'"
+            echo "::error::Invalid PR title: $PR_TITLE"
+            exit 1
+          fi
+          echo "✅ PR title is valid: $PR_TITLE"

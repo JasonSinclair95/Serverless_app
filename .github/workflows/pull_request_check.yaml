@@ -1,0 +1,73 @@
+name: 'PR Checks'
+
+on:
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
+
+env:
+  PRE_COMMIT_VERSION: 2.19.*
+  TERRAFORM_DOCS_VERSION: 0.19.0
+
+jobs:
+  # Job to install necessary dependencies (pre-commit and terraform-docs)
+  install-dependencies:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Install pre-commit
+        run: |
+          pip3 install --upgrade --user --disable-pip-version-check "pre-commit==${PRE_COMMIT_VERSION}"
+          echo "${HOME}/.local/bin" >>"${GITHUB_PATH}"
+
+      - name: Install terraform-docs
+        run: |
+          cd /tmp
+          curl -sSLo ./terraform-docs.tar.gz https://terraform-docs.io/dl/v"${TERRAFORM_DOCS_VERSION}"/terraform-docs-v"${TERRAFORM_DOCS_VERSION}"-"$(uname)"-amd64.tar.gz
+          tar -xzf terraform-docs.tar.gz
+          chmod +x terraform-docs
+          mv terraform-docs "${HOME}/.local/bin"
+
+  # Job to render terraform docs and push changes back to the PR
+  terraform-docs:
+    runs-on: ubuntu-latest
+    needs: install-dependencies
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Render terraform docs and push changes back to PR
+        uses: terraform-docs/gh-actions@v1.3.0
+        with:
+          working-dir: apiGateway, lambda
+          output-file: README.md
+          output-method: inject
+          indentation: 3
+          args: --hide header --anchor=false
+          git-push: "true"
+
+  # Job to run pre-commit hooks on the codebase
+  pre-commit:
+    runs-on: ubuntu-latest
+    needs: install-dependencies
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Run pre-commit
+        run: |
+          if ! pre-commit run --all-files
+          then
+            git diff || true
+            exit 1
+          fi
