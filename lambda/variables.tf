@@ -14,7 +14,7 @@ variable "source_dir" {
 variable "function_name" {
     description = "The name of the lambda function"
     type        = string
-    nullable = false 
+    nullable = false
 }
 
 variable "lambda_function_file_name" {
@@ -42,5 +42,5 @@ variable "tags" {
     default     = {
         team = "DevOps"
     }
-    nullable = false 
+    nullable = false
 }
