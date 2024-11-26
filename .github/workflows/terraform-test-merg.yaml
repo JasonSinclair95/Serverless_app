@@ -5,7 +5,7 @@ on:
   pull_request:
     branches:
       - 'main'
-    types: [opened, edited, reopened]
+    types: [opened, edited, reopened, synchronize]
 
   # Trigger the workflow for pushes to the "main" branch
   push:
