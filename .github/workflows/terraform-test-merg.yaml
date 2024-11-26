@@ -15,7 +15,6 @@ permissions:
 
 jobs:
   terraform:
-    name: 'Terraform CI'
     runs-on: ubuntu-latest
 
     # Set environment dynamically based on the branch
