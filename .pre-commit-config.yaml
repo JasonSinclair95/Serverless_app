@@ -8,6 +8,11 @@ repos:
       - id: end-of-file-fixer
         exclude: lambda_function_files/
 
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.81.1 # Use the latest stable version
+    hooks:
+      - id: terraform_fmt
+
   # Black: Automatically formats Python code, run on all .py files in lambda_function_files and subdirectories
   - repo: https://github.com/psf/black
     rev: 23.1.0
