@@ -1,6 +1,6 @@
 # variable "allowed_ips" {
 #   default     = {}
-#   description = "VPN List of allowed IPs and Circle CI instances" 
+#   description = "VPN List of allowed IPs and Circle CI instances"
 #   type        = list
 # }
 
@@ -25,5 +25,5 @@ variable "aws_region" {
   type        = string
   default     = "us-west-2"
   nullable = false
-  
+
 }
