@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
 
     # Set environment dynamically based on the branch
-    environment: ${{ github.ref == 'refs/heads/main' && 'production' || 'dev' }}
+    environment: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
 
     env:
       # Specify Terraform version to use
@@ -75,6 +75,6 @@ jobs:
 
     # Destroy the Terraform-managed infrastructure if not on 'main' branch
     - name: Terraform Destroy
-      if: github.ref != 'refs/heads/main'  # Run this step only if the branch is not 'main'
+      if: always() && github.ref != 'refs/heads/main'  # Run regardless of other steps' outcomes, but only for non-main branches
       run: terraform destroy -auto-approve -input=false
       working-directory: ${{ env.WORK_DIR }}
