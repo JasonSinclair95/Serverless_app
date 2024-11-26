@@ -14,7 +14,7 @@ variable "description" {
 variable "path" {
     description = "The path of the API Gateway"
     type        = string
-    nullable = false  
+    nullable = false
 }
 
 variable "http_method" {
