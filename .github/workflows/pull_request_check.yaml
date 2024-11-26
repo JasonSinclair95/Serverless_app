@@ -1,5 +1,4 @@
 name: 'PR Checks'
-
 on:
   pull_request:
     types: [opened, edited, reopened, synchronize]
@@ -9,18 +8,26 @@ env:
   TERRAFORM_DOCS_VERSION: 0.19.0
 
 jobs:
-  # Job to render terraform docs and push changes back to the PR
-  terraform-docs:
+  pre-commit:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          ref: ${{ github.event.pull_request.head.ref }}
       - name: Render terraform docs and push changes back to PR
         uses: terraform-docs/gh-actions@v1.3.0
         with:
-          working-dir: ./apiGateway, ./lambda
+          working-dir: ./apiGateway,./lambda
+          output-file: README.md
           output-method: inject
-          indentation: 3
+          indention: 3
           args: --hide header --anchor=false
           git-push: "true"
+      - name: Install pre-commit
+        run: |
+          pip3 install --upgrade --user --disable-pip-version-check "pre-commit==${PRE_COMMIT_VERSION}"
+          echo "${HOME}/.local/bin" >>"${GITHUB_PATH}"
       - name: Install terraform-docs
         run: |
           cd /tmp
@@ -28,20 +35,6 @@ jobs:
           tar -xzf terraform-docs.tar.gz
           chmod +x terraform-docs
           mv terraform-docs "${HOME}/.local/bin"
-      - name: Checkout repository code
-        uses: actions/checkout@v4
-        with:
-          persist-credentials: true
-          ref: ${{ github.event.pull_request.head.ref }}
-
-  # Job to run pre-commit hooks on the codebase
-  pre-commit:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Install pre-commit
-        run: |
-          pip3 install --upgrade --user --disable-pip-version-check "pre-commit==${PRE_COMMIT_VERSION}"
-          echo "${HOME}/.local/bin" >>"${GITHUB_PATH}"
       - name: Run pre-commit
         run: |
           if ! pre-commit run --all-files
@@ -49,8 +42,3 @@ jobs:
             git diff || true
             exit 1
           fi
-      - name: Checkout repository code
-        uses: actions/checkout@v4
-        with:
-          persist-credentials: true
-          ref: ${{ github.event.pull_request.head.ref }}
