@@ -68,7 +68,7 @@ jobs:
     - name: Test API Gateway
       run: |
         API_GATEWAY_URL=$(terraform output -raw api_gateway_endpoint)
-        RESPONSE=$(curl -s -w "%{http_code}" -o /dev/null "$API_GATEWAY_URL")
+        RESPONSE=$(curl -s -w "%{http_code}" -o /dev/null "$API_URL")
         echo "API_GATEWAY_URL: $API_GATEWAY_URL"
         echo "HTTP Status Code: $RESPONSE"
       working-directory: ${{ env.WORK_DIR }}
