@@ -4,19 +4,9 @@ repos:
     rev: v3.2.0
     hooks:
       - id: trailing-whitespace
-        exclude: k8s/
+        exclude: lambda_function_files/
       - id: end-of-file-fixer
-        exclude: k8s/
-
-  # Local repository for running Terraform checks
-  - repo: local
-    hooks:
-      - id: terraform
-        require_serial: true
-        name: terraform
-        entry: .pre-commit-hooks.d/terraform.sh
-        language: script
-        files: ^.*(\.tf)$
+        exclude: lambda_function_files/
 
   # Black: Automatically formats Python code, run on all .py files in lambda_function_files and subdirectories
   - repo: https://github.com/psf/black
