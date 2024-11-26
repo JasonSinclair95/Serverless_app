@@ -24,11 +24,5 @@ repos:
       - id: end-of-file-fixer
         files: ^lambda_function_files/.*\.py$
 
-  # Markdown linting hook: Lint markdown files, automatically fixing issues
-  - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.31.1
-    hooks:
-      - id: markdownlint
-        args: ["--fix"]
 
 minimum_pre_commit_version: !!str 2.19
