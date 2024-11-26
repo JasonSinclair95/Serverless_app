@@ -1,0 +1,28 @@
+repos:
+  # Pre-commit hooks: Basic formatting checks (whitespace and newlines)
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.2.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: lambda_function_files/
+      - id: end-of-file-fixer
+        exclude: lambda_function_files/
+
+  # Black: Automatically formats Python code, run on all .py files in lambda_function_files and subdirectories
+  - repo: https://github.com/psf/black
+    rev: 23.1.0
+    hooks:
+      - id: black
+        files: ^lambda_function_files/.*\.py$
+
+  # Pre-commit hooks: Basic formatting checks (whitespace and newlines), run on all .py files in lambda_function_files and subdirectories
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+        files: ^lambda_function_files/.*\.py$
+      - id: end-of-file-fixer
+        files: ^lambda_function_files/.*\.py$
+
+
+minimum_pre_commit_version: !!str 2.19
