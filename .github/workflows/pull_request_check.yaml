@@ -1,4 +1,4 @@
-name: 'PR Checks'
+name: 'Run pre-commit checks and generate terraform-docs'
 on:
   pull_request:
     types: [opened, edited, reopened, synchronize]
@@ -11,7 +11,7 @@ permissions:
   contents: write  # Grant permission to push to the repository
 
 jobs:
-  pre-commit:
+  pre-commit-terraform-docs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

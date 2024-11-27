@@ -1,14 +1,17 @@
-name: Run Tests for PRs
+name: Run unit tests for hello_world lambda function script
 
 on:
+  # Trigger the workflow for pull requests
   pull_request:
+    types: [opened, edited, reopened, synchronize]
+
+  # Trigger the workflow for pushes to the "main" branch
+  push:
     branches:
-      - '*'
-    paths:
-      - 'lambda_functions_files/hello_world/test_hello_world.py'
+      - 'main'
 
 jobs:
-  test:
+  unit-test:
     runs-on: ubuntu-latest
 
     steps:
@@ -27,4 +30,4 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest --cov=hello_world --cov-report=term-missing lambda_functions_files/hello_world/test_hello_world.py
+          pytest --cov=hello_world --cov-report=term-missing ./lambda_function_files/hello_world/test_hello_world.py
