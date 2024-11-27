@@ -6,6 +6,7 @@ locals {
 resource "random_string" "this" {
   length  = 6
   numeric = false
+  upper   = false
 }
 
 resource "aws_lambda_function" "this" {
