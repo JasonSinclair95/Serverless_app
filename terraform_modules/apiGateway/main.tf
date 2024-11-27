@@ -2,7 +2,7 @@ resource "random_id" "this" {
   byte_length = 6
 }
 resource "aws_api_gateway_rest_api" "this" {
-  name        = "${var.name}-${random_id.this.result}"
+  name        = "${var.name}-${random_id.this.id}"
   description = var.description
 }
 

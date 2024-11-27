@@ -8,7 +8,7 @@ resource "random_id" "this" {
 }
 
 resource "aws_lambda_function" "this" {
-  function_name    = "${var.function_name}-${random_id.this.result}"
+  function_name    = "${var.function_name}-${random_id.this.id}"
   filename         = "${path.module}/../../${var.source_dir}/${local.lambda_function_filename_base}/${local.lambda_function_filename_base}.zip"
   role             = aws_iam_role.this.arn
   handler          = var.handler
@@ -43,7 +43,7 @@ data "aws_iam_policy_document" "this" {
 }
 
 resource "aws_iam_role" "this" {
-  name               = "${var.function_name}-lambda-function-role-${random_id.this.result}"
+  name               = "${var.function_name}-lambda-function-role-${random_id.this.id}"
   assume_role_policy = data.aws_iam_policy_document.this.json
   tags               = var.tags
 }
