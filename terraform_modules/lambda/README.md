@@ -50,6 +50,7 @@ No modules.
 | Name | Version |
 |------|---------|
 | aws | 5.77.0 |
+| random | 3.6.3 |
 
 ### Providers
 
@@ -57,6 +58,7 @@ No modules.
 |------|---------|
 | archive | n/a |
 | aws | 5.77.0 |
+| random | 3.6.3 |
 
 ### Modules
 
@@ -68,6 +70,7 @@ No modules.
 |------|------|
 | [aws_iam_role.this](https://registry.terraform.io/providers/hashicorp/aws/5.77.0/docs/resources/iam_role) | resource |
 | [aws_lambda_function.this](https://registry.terraform.io/providers/hashicorp/aws/5.77.0/docs/resources/lambda_function) | resource |
+| [random_string.this](https://registry.terraform.io/providers/hashicorp/random/3.6.3/docs/resources/string) | resource |
 | [archive_file.this](https://registry.terraform.io/providers/hashicorp/archive/latest/docs/data-sources/file) | data source |
 | [aws_iam_policy_document.this](https://registry.terraform.io/providers/hashicorp/aws/5.77.0/docs/data-sources/iam_policy_document) | data source |
 
