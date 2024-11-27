@@ -1,8 +1,8 @@
-resource "random_string" "this" {
-  length = 6
+resource "random_id" "this" {
+  byte_length = 6
 }
 resource "aws_api_gateway_rest_api" "this" {
-  name        = "${var.name}-${random_string.this.result}"
+  name        = "${var.name}-${random_id.this.result}"
   description = var.description
 }
 
