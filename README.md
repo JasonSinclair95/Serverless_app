@@ -13,10 +13,27 @@ The Terraform configuration utilizes a **remote backend** for state management, 
 The deployment process is automated using **GitHub Actions**, streamlining testing and deployment to designated environments based on branch activity.
 
 ### Pull Request Workflow (Test/Dev Environment)
-- When a pull request (PR) is opened targeting the `main` branch:
-  1. **Terraform Stages**: Executes `terraform init`, `terraform plan`, and `terraform apply` in a **test environment**.
-  2. **Validation**: Verifies the API Gateway endpoint's functionality.
-  3. **Environment Cleanup**: Destroys the test environment post-validation, ensuring ephemeral and isolated test environments for every PR.
+
+- When a pull request (PR) is opened, the following steps are executed to ensure quality and maintain best practices:
+
+1. **Terraform Initialization and Deployment**:
+   - Runs `terraform init`, `terraform plan`, and `terraform apply` to provision infrastructure in a **test environment**.
+
+2. **API Gateway Validation**:
+   - Verifies the functionality of the API Gateway endpoint to confirm the deployed resources work as expected.
+
+3. **Unit Testing**:
+   - Executes unit tests for the `hello_world` Lambda function to validate its logic and behavior and produces a coverage repot.
+
+4. **Documentation Generation**:
+   - Generates Terraform documentation to keep the configuration understandable and maintainable. This step ensures all resources and modules are well-documented for future reference.
+
+5. **Linting and Formatting**:
+   - Runs linting and formatting checks for both Terraform and Python files, enforcing code quality standards and consistency across the project.
+
+6. **Environment Cleanup**:
+   - Destroys the test environment after validation, ensuring that resources are ephemeral and isolated for every PR, minimizing costs and avoiding resource conflicts.
+
 
 ### Main Branch Workflow (Production Environment)
 - Once a PR is approved and merged into `main`, the application is deployed to the **production environment**. This ensures only validated changes impact the production deployment.

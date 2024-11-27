@@ -9,6 +9,7 @@ resource "aws_s3_bucket_versioning" "lamda_state" {
   versioning_configuration {
     status = "Enabled"
   }
+  depends_on = [aws_s3_bucket.lambda_state]
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "lamda_state" {
@@ -19,13 +20,14 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "lamda_state" {
       sse_algorithm = "AES256"
     }
   }
+  depends_on = [aws_s3_bucket.lambda_state]
 }
 
 resource "aws_s3_bucket_object_lock_configuration" "lamda_state" {
   bucket = aws_s3_bucket.lambda_state.id
 }
 
-resource "aws_dynamodb_table" "basic-dynamodb-table" {
+resource "aws_dynamodb_table" "lamda_state" {
   name           = "terraform-state"
   read_capacity  = 5
   write_capacity = 5
@@ -34,7 +36,8 @@ resource "aws_dynamodb_table" "basic-dynamodb-table" {
     name = "LockID"
     type = "S"
   }
-  tags = var.tags
+  tags       = var.tags
+  depends_on = [aws_s3_bucket.lambda_state]
 }
 # resource "aws_s3_bucket_public_access_block" "this" {
 #   block_public_acls       = true
